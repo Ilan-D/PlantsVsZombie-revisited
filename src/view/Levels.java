@@ -25,8 +25,10 @@ public class Levels extends JFrame implements ActionListener {
     private JButton Difficile;
     private JButton closeButton;
     private Image background;
+    private int choiceMap;
 
-    public Levels() {
+    public Levels(int choiceMap) {
+        this.choiceMap = choiceMap;
 
         this.setLayout(new BorderLayout());
 
@@ -110,21 +112,17 @@ public class Levels extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == Facile) {
-            PlantvsZombie pvz = new PlantvsZombie(1);
+            PlantvsZombie pvz = new PlantvsZombie(1,choiceMap);
             System.out.println("THIS IS CALLING  PlantvsZombie pvz");
             this.dispose();
         } else if (e.getSource() == Moyen) {
-            PlantvsZombie pvz = new PlantvsZombie(2);
+            PlantvsZombie pvz = new PlantvsZombie(2,choiceMap);
             this.dispose();
         } else if (e.getSource() == Difficile) {
-            PlantvsZombie pvz = new PlantvsZombie(3);
+            PlantvsZombie pvz = new PlantvsZombie(3,choiceMap);
             this.dispose();
         } else if (e.getSource() == closeButton) {
             this.dispose();
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Levels());
     }
 }

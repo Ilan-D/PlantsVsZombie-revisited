@@ -60,8 +60,9 @@ public class PlantvsZombie extends JPanel {
     private boolean end_of_death = false;
     private int currentFrameIndexDeath;
     private boolean hasDisplayedWinDialog = false; // pour la boite de dialogue
+    private int choiceMap;
 
-    public PlantvsZombie(int a) {
+    public PlantvsZombie(int a, int choiceMap) {
 
         if (a == 1   ) {
             this.battle = new MapConfig(a);
@@ -78,7 +79,7 @@ public class PlantvsZombie extends JPanel {
         if (a == 4) {
             this.battle = new MapConfig(a);
         }
-
+        this.choiceMap = choiceMap;
         this.map = battle.getMap();
         System.out.println(this.battle.getCompteurEnemy());
         this.setPreferredSize(new Dimension(900, 800));
@@ -433,9 +434,9 @@ public class PlantvsZombie extends JPanel {
     }
 
     public void add(int line, int column, Mob mob) {
-        this.map[line][column].setMob(mob);
-        this.map[line][column].setPresent(true);
-        this.map[line][column].getMob().setDelatXY(line, column);
+            this.map[line][column].setMob(mob);
+            this.map[line][column].setPresent(true);
+            this.map[line][column].getMob().setDelatXY(line, column);
     }
 
     public void clean(int i, int j) {
@@ -459,7 +460,7 @@ public class PlantvsZombie extends JPanel {
 
     private void initializeBackground() {
         try {
-            background = ImageIO.read(new File("src/img/background/backgroundv3.jpeg"));
+            background = ImageIO.read(new File("src/img/background/backgroundv" + this.choiceMap + ".jpeg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -508,6 +509,9 @@ public class PlantvsZombie extends JPanel {
     ///////////////////////// HELPER FUNCTION /////////////////////////
 
     /////////////////////////// ACCESSEURS ///////////////////////////
+    public Case[][] getMap(){
+        return this.map;
+    }
     public int getCellWidth() {
         return this.cellWidth;
     }

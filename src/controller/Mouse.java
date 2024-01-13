@@ -24,7 +24,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
         int line = (e.getY() - 100) / this.game.getCellHeight();
         Player currentPlayer = this.game.getBattle().getPlayer();
 
-        if (this.game.getImageClickedPeashooter() && currentPlayer.getMoney() >= 100) {
+        if (this.game.getImageClickedPeashooter() && currentPlayer.getMoney() >= 100 && column != 0 && !(this.game.getMap()[line][column].getPresent())) {
             currentPlayer.setMoney(currentPlayer.getMoney() - 100);
 
             Defender1 def = new Defender1();
@@ -56,7 +56,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(MouseEvent e) {
 
-        // System.out.println(e.getX() + " , " + e.getY());
+         System.out.println(e.getX() + " , " + e.getY());
         if (((e.getX() >= 98 && e.getX() <= 144)) && (e.getY() >= 17 && e.getY() <= 80) && this.game.getBattle()
                 .getPlayer().getMoney() >= 100) {
             this.game.setImageClickedPeashooter(true);

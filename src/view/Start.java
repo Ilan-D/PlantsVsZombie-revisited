@@ -1,20 +1,14 @@
 package view;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.text.html.ImageView;
 
 import model.Launcher;
 import view.Start;
 
-import javax.swing.ImageIcon;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
 
 public class Start implements ActionListener {
     private JFrame frame;
@@ -23,6 +17,9 @@ public class Start implements ActionListener {
     private JButton Marathon;
     private JButton Map;
     private JButton closeButton;
+    private int choiceMap = 1;
+    private JLabel mapImageLabel;
+
     public Start() {
 
         frame = new JFrame();
@@ -33,6 +30,9 @@ public class Start implements ActionListener {
         frame.setResizable(false);
         frame.setUndecorated(true);
         frame.setBackground(Color.BLACK);
+
+        // Initialisez choiceMap
+        choiceMap = 1; // Utilisez le choix initial
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.BLACK);
@@ -45,7 +45,7 @@ public class Start implements ActionListener {
         frame.add(panel);
 
         JPanel buttonPanel = new JPanel();
-        String[] buttonLabels = { "TERMINAL", "CHOSE LEVELS", "MARATHON","MAP", "CLOSE"};
+        String[] buttonLabels = {"TERMINAL", "CHOSE LEVELS", "MARATHON", "MAP", "CLOSE"};
         JButton[] buttons = new JButton[buttonLabels.length];
 
         for (int i = 0; i < buttonLabels.length; i++) {
@@ -88,6 +88,45 @@ public class Start implements ActionListener {
         return button;
     }
 
+    private void showMapPopup() {
+        JDialog mapDialog = new JDialog(frame, "Map Popup", true);
+        mapDialog.setSize(400, 380);
+        mapDialog.setLayout(new BorderLayout());
+
+        // Ajout d'une étiquette et d'éléments pour la fenêtre contextuelle (pop-up)
+        Image mapImage = new ImageIcon("src/img/background/backgroundv1.jpeg").getImage();
+        mapImage = mapImage.getScaledInstance(350, 300, Image.SCALE_SMOOTH); // Redimensionnez l'image
+        mapImageLabel = new JLabel(new ImageIcon(mapImage));
+        mapDialog.add(mapImageLabel, BorderLayout.NORTH);
+
+        JButton prevButton = new JButton("Previous");
+        System.out.println(this.choiceMap);
+        prevButton.addActionListener(event -> changeMap(-1));
+
+        JButton nextButton = new JButton("Next");
+        nextButton.addActionListener(event -> changeMap(1));
+
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(prevButton);
+        buttonPanel.add(nextButton);
+        mapDialog.add(buttonPanel, BorderLayout.CENTER);
+        mapDialog.setLocationRelativeTo(frame);
+
+        mapDialog.setVisible(true);
+    }
+
+    private void changeMap(int delta) {
+        if ((delta == -1 && this.choiceMap > 1) || (delta == 1 && this.choiceMap < 3)) {
+            this.choiceMap += delta;
+        }
+
+        // Mettez à jour l'image affichée avec le chemin relatif depuis le package
+        Image mapImage = new ImageIcon("src/img/background/backgroundv" + choiceMap + ".jpeg").getImage();
+        mapImage = mapImage.getScaledInstance(350, 300, Image.SCALE_SMOOTH); // Redimensionnez l'image
+        mapImageLabel.setIcon(new ImageIcon(mapImage));
+    }
+
     public void setVisible(boolean visible) {
         frame.setVisible(visible);
     }
@@ -99,16 +138,17 @@ public class Start implements ActionListener {
             Launcher a = new Launcher();
         } else if (e.getSource() == levels) {
             frame.dispose();
-            Levels level = new Levels();
+            Levels level = new Levels(choiceMap);
         } else if (e.getSource() == Marathon) {
             frame.dispose();
-            PlantvsZombie pvz = new PlantvsZombie(4);
-        }else if(e.getSource() == Map){
-            System.out.println("bientôt disponible");
+            PlantvsZombie pvz = new PlantvsZombie(4, choiceMap);
+        } else if (e.getSource() == Map) {
+            showMapPopup();
         } else if (e.getSource() == closeButton) {
             frame.dispose();
         }
     }
+
     public static void main(String[] args) {
         new Start();
     }
