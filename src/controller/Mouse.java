@@ -37,7 +37,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
             this.game.repaint();
 
-        } else if (this.game.getImageClickedPeashooter() && currentPlayer.getMoney() >= 50) {
+        } else if (this.game.getImageClickedNut() && currentPlayer.getMoney() >= 50 && column != 0 && !(this.game.getMap()[line][column].getPresent())) {
             currentPlayer.setMoney(currentPlayer.getMoney() - 50);
 
             DefenderNut def = new DefenderNut();
@@ -56,7 +56,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
     @Override
     public void mousePressed(MouseEvent e) {
 
-         System.out.println(e.getX() + " , " + e.getY());
+//        System.out.println(e.getX() + " , " + e.getY());
         if (((e.getX() >= 98 && e.getX() <= 144)) && (e.getY() >= 17 && e.getY() <= 80) && this.game.getBattle()
                 .getPlayer().getMoney() >= 100) {
             this.game.setImageClickedPeashooter(true);
@@ -75,7 +75,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
             this.game.repaint();
         }
         if (this.game.getImageClickedNut()) {
-            this.game.setImageIconPea(new ImageIcon("src/img/plantput/nut.png"));
+            this.game.setImageIconNut(new ImageIcon("src/img/plantput/nut.png"));
             this.game.repaint();
         }
     }
