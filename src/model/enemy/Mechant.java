@@ -5,15 +5,21 @@ import model.MapConfig;
 import model.Mob;
 import model.defender.Tower;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Mechant extends Mob {
     private boolean die;
     private boolean walk;
     private boolean attack;
     private boolean End_Of_Death;
+    private int posiX;
 
     public Mechant(String name, String Display, int damage) {
         super(name, Display);
         super.setDamageIntensity(damage);
+        this.timer();
     }
 
     /////////////////////////// ACCESSEURS ET MUTATEURS ///////////////////////////
@@ -47,6 +53,14 @@ public class Mechant extends Mob {
 
     public boolean getEnd_Of_death() {
         return this.End_Of_Death;
+    }
+
+    public int getPosiX() {
+        return this.posiX;
+    }
+
+    public void setPosiX(int n) {
+        this.posiX = n;
     }
 
     /////////////////////////// ACCESSEURS ET MUTATEURS ////////////////////////////
@@ -84,5 +98,15 @@ public class Mechant extends Mob {
             return super.get_display() + super.get_display() + health_points;
         }
         return super.get_display() + 10;
+    }
+
+    public void timer() {
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                posiX -= 2;
+            }
+        });
+        timer.start();
     }
 }
