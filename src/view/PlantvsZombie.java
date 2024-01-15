@@ -229,6 +229,7 @@ public class PlantvsZombie extends JPanel {
 
                         if (j != 1 && j != 0 && map[i][j - 1].getPresent() && !map[i][j - 1].Get_Enemy_present()) {
                             g.drawImage(new ImageIcon("src/img/zombieeat/Frame" + currentFrameIndex + ".png").getImage(), ((j) * cellWidth) - 20, posiY, 100, 100, null);
+                            currentMob.setPosiX(currentMob.getPosiX() + 2);
                             attackDefenseWithDelay(g, i, j);
 //                            rrr++;
 
@@ -298,7 +299,7 @@ public class PlantvsZombie extends JPanel {
 
     public void attackDefenseWithDelay(Graphics g, int i, int j) { // mauvais timer ne marche que pour une instance !
         if (attackTimer == null || !attackTimer.isRunning()) {
-            attackTimer = new Timer(2000, new ActionListener() {
+            attackTimer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (map[i][j - 1].getMob() != null) {
