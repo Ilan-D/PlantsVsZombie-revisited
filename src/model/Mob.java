@@ -1,12 +1,9 @@
 package model;
 
-import java.awt.Image;
-
 public abstract class Mob {
     private int[] DeltaXY = new int[2];
     private String name;
     private int health_points;
-    private boolean Alive;
     private String display;
     private int damage_intensity;
     private String Url;
@@ -18,14 +15,14 @@ public abstract class Mob {
     public Mob(String name) {
         this.name = name;
         this.health_points = 10;
-        this.Alive = true;
+        // this.Alive = true;
     }
 
     public Mob(String name, String display) {
         this.name = name;
         this.display = display;
         this.health_points = 10;
-        this.Alive = true;
+        // this.Alive = true;
 
     }
 
@@ -93,6 +90,10 @@ public abstract class Mob {
     public void setPosiX(int n) {
         this.posiX = n;
     }
+
+    // public int getCurrentFrameIndex() {
+    // return this.currentFrameIndex;
+    // }
     /////////////////////////// ACCESSEURS ///////////////////////////
 
     //// ------------////

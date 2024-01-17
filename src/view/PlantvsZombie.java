@@ -49,7 +49,6 @@ public class PlantvsZombie extends JPanel {
     private ImageIcon imageIconPea;
     private boolean is_image_clicked_nut = false;
 
-
     private ImageIcon imageIconNut;
     // --------->> for shop <<---------//
     private int cellWidth, cellHeight;
@@ -81,9 +80,9 @@ public class PlantvsZombie extends JPanel {
         this.choiceMap = choiceMap;
         this.map = battle.getMap();
         System.out.println(this.battle.getCompteurEnemy());
-        this.setPreferredSize(new Dimension(900, 800));
+        this.setPreferredSize(new Dimension(1200, 800));
         this.cellHeight = this.getHeight() / this.map.length;
-        this.cellWidth = 800 / 10;
+        this.cellWidth = 1200 / 11;
 
         this.position = new int[battle.getCompteurEnemy()][2];
 
@@ -104,7 +103,7 @@ public class PlantvsZombie extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.pack();
-        frame.setSize(new Dimension(900, 800));
+        frame.setSize(new Dimension(1200, 800));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setResizable(false);
@@ -147,10 +146,8 @@ public class PlantvsZombie extends JPanel {
 
         g.drawString(money, 35, 80);
         this.drawCase(g, cellHeight, cellWidth);
-        // Draw background and details //
 
         this.cellHeight = (this.getHeight() - 100) / this.map.length;
-        this.cellWidth = 800 / 10;
 
         if (is_image_clicked_peashooter) {
             drawImage(g, "src/img/peashooter.gif", this.imageIconPea);
@@ -205,21 +202,22 @@ public class PlantvsZombie extends JPanel {
         return button;
     }
 
-    private int rrr;
-
     public void drawMob(Graphics g, int cellHeight, int cellWidth) {
         boolean attack = true;
         int counter_X = 0;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 Case currentCase = map[i][j];
-                //this.posiX =; this.posiY =; // penser a factoriser le plus possible le code
+                // this.posiX =; this.posiY =; // penser a factoriser le plus possible le code
                 if (currentCase.getMob() != null) {
-                    if (map[i][j].Get_Enemy_present()) {
-                        Mechant currentMob = (Mechant) map[i][j].getMob();
-//                        gifX
+                    if (map[i][j].Get_Enemy_present() && map[i][j].getMob().getClass() == Zombie.class) {
+                        Zombie currentMob = (Zombie) map[i][j].getMob();
 
-                        posiX = ((currentMob.getColonnePosi() * cellWidth) - cellWidth) + currentMob.getPosiX(); // problème il faut sortir cela
+                        posiX = ((currentMob.getColonnePosi() * cellWidth) - cellWidth) + currentMob.getPosiX(); // problème
+                                                                                                                 // il
+                                                                                                                 // faut
+                                                                                                                 // sortir
+                                                                                                                 // cela
 
                         gifXTMP = ((j * cellWidth) / cellWidth);
 
@@ -228,42 +226,52 @@ public class PlantvsZombie extends JPanel {
                         position[counter_X][1] = (posiX + cellWidth + cellWidth / 4) / cellWidth;
 
                         if (j != 1 && j != 0 && map[i][j - 1].getPresent() && !map[i][j - 1].Get_Enemy_present()) {
-                            g.drawImage(new ImageIcon("src/img/zombieeat/Frame" + currentFrameIndex + ".png").getImage(), ((j) * cellWidth) - 20, posiY, 100, 100, null);
+                            currentMob.setAttack(true);
+                            g.drawImage(
+                                    new ImageIcon("src/img/zombieeat/Frame" + currentMob.currentFrameIndex + ".png")
+                                            .getImage(),
+                                    ((j) * cellWidth) - 20, posiY, 100, 100, null);
                             currentMob.setPosiX(currentMob.getPosiX() + 2);
                             attackDefenseWithDelay(g, i, j);
-//                            rrr++;
 
-                            battle.afficher();
-
+                            // battle.afficher();
 
                             if (j != 1 && map[i][j - 1].getMob().getHealth_points() <= 0) {
                                 clean(i, j - 1);
-//                                posiX = posiX - (rrr * gifX);
+                                currentMob.setAttack(false); // il faut remettre donc a false car il est mort donc plus
+                                                             // personne !
                             }
-                            if (currentMob.getHealth_points() <= 0) {
-                                map[i][j].setMob(null);
-                                map[i][j].setPresent(false);
-                                map[i][j].Set_Enemy_present(false);
-                                this.battle.setCompteurEnemy(this.battle.getCompteurEnemy() - 1);
-                            }
+                            // if (currentMob.getHealth_points() <= 0) {
+                            // map[i][j].setMob(null);
+                            // map[i][j].setPresent(false);
+                            // map[i][j].Set_Enemy_present(false);
+                            // this.battle.setCompteurEnemy(this.battle.getCompteurEnemy() - 1);
+                            // }
 
                         } else if (currentMob.getHealth_points() <= 0) {
-                            if (map[i][j].getMob() instanceof Tower) {
-                                this.battle.getDEFENDER().remove(map[i][j].getMob());
+                            if (!currentMob.isDie()) {
+                                currentMob.currentFrameIndex = 0;
+                                System.out.println("test");
                             }
-                            map[i][j].setMob(null);
-                            map[i][j].setPresent(false);
-                            map[i][j].Set_Enemy_present(false);
-                            this.battle.setCompteurEnemy(this.battle.getCompteurEnemy() - 1);
+                            currentMob.setDie(true);
+                            g.drawImage(new ImageIcon("src/img/zombiedie/Frame" + currentMob.currentFrameIndex + ".png")
+                                    .getImage(), posiX, posiY, 100, 100, null);
+                            System.out.println(currentMob.currentFrameIndex);
+                            g.drawImage(
+                                    new ImageIcon("src/img/zombiehead/Frame" + currentMob.currentFrameIndex + ".png")
+                                            .getImage(),
+                                    posiX, posiY, 100, 100, null);
+                            clean(i, j);
                         } else {
-                            g.drawImage(new ImageIcon("src/img/zombieWalk2.gif").getImage(), posiX, posiY, 100, 100, null);
+                            g.drawImage(new ImageIcon(
+                                    "src/img/zombie/Frame" + currentMob.currentFrameIndex + ".png").getImage(), posiX,
+                                    posiY, 100, 100, null);
                             if (position[counter_X][1] != j) {
                                 move(i, j);
                                 gifXTMP = ((j * cellWidth)) / cellWidth;
                                 if (attack) {
-                                    battle.afficher();
-
-//                                    battle.attack2();
+                                    // battle.afficher();
+                                    battle.attack2();
                                     attack = false;
                                 }
                             }
@@ -273,13 +281,17 @@ public class PlantvsZombie extends JPanel {
                         }
                         counter_X += 1;
 
-                    } else if (currentCase.getPresent() && currentCase.getMob().getClass() == Defender1.class) {
-                        g.drawImage(new ImageIcon("src/img/peashooter.gif").getImage(), j * cellWidth, (i * cellHeight) + cellHeight, 80, 80, null);
+                    } else if (currentCase.getPresent() && currentCase.getMob().getClass() == PeaShooter.class) {
+                        g.drawImage(new ImageIcon("src/img/peashooter.gif").getImage(), (j * cellWidth) + 10,
+                                (i * cellHeight) + cellHeight - 30, 80, 80, null);
 
                         attackEnemyWithDelay(g, i, j);
                     } else if (currentCase.getPresent() && currentCase.getMob().getClass() == DefenderNut.class) {
-                        g.drawImage(new ImageIcon("src/img/nut.gif").getImage(), (j * cellWidth) + 20, (i * cellHeight) + cellHeight + 20, 50, 50, null);
+                        g.drawImage(new ImageIcon("src/img/nut.gif").getImage(), (j * cellWidth) + 25,
+                                (i * cellHeight) + cellHeight, 50, 50, null);
                     }
+
+                    //
                     // ici c pour reglé certains bug
                     // else if (map[i][j].getPresent() && map[i][j].getMob() instanceof Tower
                     // && map[i][j].getMob() instanceof Mechant && map[i][j].Get_Enemy_present() &&
@@ -291,10 +303,12 @@ public class PlantvsZombie extends JPanel {
                     // g.drawImage(new ImageIcon("src/img/zombieWalk2.gif").getImage(), posiX,
                     // posiY, 100, 100,
                     // null);
-                    // }
+                    //
+
                 }
             }
         }
+
     }
 
     public void attackDefenseWithDelay(Graphics g, int i, int j) { // mauvais timer ne marche que pour une instance !
@@ -306,7 +320,8 @@ public class PlantvsZombie extends JPanel {
                         map[i][j - 1].getMob().setHealth_points(map[i][j - 1].getMob().getHealth_points() - 2);
                         // Mechant currentMechant = (Mechant) map[i][j].getMob();
                         // currentMechant.attack(i, j, battle);
-                        g.drawImage(new ImageIcon("src/img/zombieeat/Frame" + currentFrameIndex + ".png").getImage(), (posiX - gifX) - 20, posiY, 100, 100, null);
+                        g.drawImage(new ImageIcon("src/img/zombieeat/Frame" + currentFrameIndex + ".png").getImage(),
+                                (posiX - gifX) - 20, posiY, 100, 100, null);
                         attackTimer.stop();
                     }
                 }
@@ -332,56 +347,6 @@ public class PlantvsZombie extends JPanel {
             attackTimer2.start();
         }
     }
-
-    ///////////////////////// DISPLAY GUI FIN ///////////////////////////
-
-    // public void attack(Graphics g) {
-    // for (int i = 0; i < battle.DEFENDER.size(); i++) {
-    // battle.DEFENDER.get(i).attack(battle);
-    // int column = battle.DEFENDER.get(i).getDeltaXY()[0];
-    // int line = battle.DEFENDER.get(i).getDeltaXY()[1];
-    // int target = find_target(line, column);
-
-    // if (target != -1) {
-    // int startX = column * this.cellWidth;
-    // int startY = line * this.cellHeight;
-    // int targetX = target * this.cellWidth;
-
-    // moveImage(g, startX, startY, targetX);
-    // }
-    // }
-    // }
-
-    // public int find_target(int colum, int line) {
-    // for (int i = colum; i < map[line].length; i++) {
-    // if (map[line][i].Get_Enemy_present()) {
-    // return i;
-    // }
-    // }
-    // return -1;
-    // }
-
-    // public int currentX;
-
-    // public void moveImage(Graphics g, int startX, int startY, int targetX) {
-    // Timer timer = new Timer(100, new ActionListener() {
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-    // if (currentX < targetX) {
-    // currentX += 2;
-    // repaint(); // Assurez-vous d'appeler repaint pour actualiser l'affichage
-    // } else {
-    // ((Timer) e.getSource()).stop();
-    // }
-    // }
-    // });
-
-    // timer.start();
-
-    // // Dessiner l'image à la position actuelle (currentX, startY)
-    // g.drawImage(new ImageIcon("src/img/bullet/bullet.png").getImage(), currentX,
-    // startY, null);
-    // }
 
     ////////////////////////////// TIMER //////////////////////////////
     private void timer() {
@@ -425,7 +390,8 @@ public class PlantvsZombie extends JPanel {
 
     public void drawImage(Graphics g, String path, ImageIcon currentImage) {
         try {
-            g.drawImage(new ImageIcon(path).getImage(), getMousePosition().x - (currentImage.getIconWidth() / 2), getMousePosition().y - (currentImage.getIconHeight() / 2), 50, 50, null);
+            g.drawImage(new ImageIcon(path).getImage(), getMousePosition().x - (currentImage.getIconWidth() / 2),
+                    getMousePosition().y - (currentImage.getIconHeight() / 2), 50, 50, null);
         } catch (NullPointerException e) {
 
         }
@@ -483,8 +449,6 @@ public class PlantvsZombie extends JPanel {
     }
 
     public void end(Graphics g) {
-        // System.out.println("Game over!");
-        // System.exit(0);
         if (!hasDisplayedWinDialog) {
             JButton returnToStartButton = createStyledButton("VOUS AVEZ PERDU ! ACCUEIL");
             returnToStartButton.setBounds(300, 400, 300, 50);

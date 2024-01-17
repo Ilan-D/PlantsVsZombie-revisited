@@ -152,11 +152,7 @@ public class MapConfig {
                     int random_Type_ennemie = random.nextInt(2);
 
                     if (random_Type_ennemie == 0) {
-                        map[line][column].setMob(new Enemy1());
-                        map[line][column].Set_Enemy_present(true);
-                        map[line][column].setPresent(true);
-                    } else {
-                        map[line][column].setMob(new Enemy2());
+                        map[line][column].setMob(new Zombie());
                         map[line][column].Set_Enemy_present(true);
                         map[line][column].setPresent(true);
                     }
@@ -201,9 +197,7 @@ public class MapConfig {
                     int random_Type_ennemie = random.nextInt(2);
 
                     if (random_Type_ennemie == 0) {
-                        map[line][column].setMob(new Enemy1());
-                    } else {
-                        map[line][column].setMob(new Enemy2());
+                        map[line][column].setMob(new Zombie());
                     }
 
                     map[line][column].Set_Enemy_present(true);
@@ -274,39 +268,24 @@ public class MapConfig {
     public void spawn() {
         Random random = new Random();
         int numberOfEnemies = 4;
-        // random.nextInt(6) + 1;
 
         if (game_mode == 3) {
             numberOfEnemies = 10;
-            // random.nextInt(10) + 4;
         }
 
         int randomNumber_ennemie = 0;
-        // random.nextInt(2);
-        // random.nextInt(2); // A CHANGER CT POUR UN TEST
-        // random.nextInt(2);
         compteurEnemy = compteurEnemy + numberOfEnemies;
-        System.out.println("ozuozuz");
-        // System.out.println(compteurEnemy + " MAPCONFIG1");
 
         while (numberOfEnemies != 0) {
             int enemyType = random.nextInt(2);
             int line = random.nextInt(map.length);
             int column = random.nextInt(10, map[0].length);
-            // random.nextInt(map[0].length);
-            // ;
-
             if (!present(line, column)) {
                 if (randomNumber_ennemie == 0) {
-                    map[line][column].setMob(new Enemy1());
+                    map[line][column].setMob(new Zombie());
                     map[line][column].Set_Enemy_present(true);
                     map[line][column].setPresent(true);
                     map[line][column].getMob().setColonnePosi(column);
-                    numberOfEnemies--;
-                } else {
-                    map[line][column].setMob(new Enemy2());
-                    map[line][column].Set_Enemy_present(true);
-                    map[line][column].setPresent(true);
                     numberOfEnemies--;
                 }
             }
@@ -314,8 +293,6 @@ public class MapConfig {
     }
 
     public boolean present(int x, int y) {
-        // return (x >= 1) && (x < height) && (y >= 0) && (y <= width) &&
-        // map[x][y].getPresent(); on s'est fait pranker par cette fonction !!!!
         return map[x][y].getPresent();
     }
 
@@ -374,20 +351,12 @@ public class MapConfig {
             add_Scanner(new Scanner(System.in), piece);
         } else if (map[x][y].getPresent() == false) {
             if (piece.equals("N")) {
-                Defender1 defender1 = new Defender1();
+                PeaShooter defender1 = new PeaShooter();
                 map[x][y].setMob(defender1);
                 map[x][y].getMob().setDelatXY(x, y);
                 map[x][y].setPresent(true);
                 DEFENDER.add(defender1);
                 this.player1.setMoney(this.player1.getMoney() - defender1.getPrice());
-            }
-            if (piece.equals("C")) {
-                Defender defender = new Defender();
-                map[x][y].setMob(defender);
-                map[x][y].getMob().setDelatXY(x, y);
-                map[x][y].setPresent(true);
-                DEFENDER.add(defender);
-                this.player1.setMoney(this.player1.getMoney() - defender.getPrice());
             }
             if (piece.equals("B")) {
                 Defender2 defender2 = new Defender2();
@@ -426,8 +395,7 @@ public class MapConfig {
         for (int i = 0; i < this.map.length; i++) {
             for (int j = 0; j <= this.frontiere; j++) {
                 if (map[i][j].getMob() != null) {
-                    if (map[i][j].getMob().getClass() == Enemy1.class
-                            || map[i][j].getMob().getClass() == Enemy2.class) {
+                    if (map[i][j].getMob().getClass() == Zombie.class) {
                         map[i][j].Set_Enemy_present(true);
                     }
                 }
@@ -521,10 +489,9 @@ public class MapConfig {
                         this.map[i][j].setPresent(false);
 
                     } else if (this.map[i][j - 1].getMob() != null
-                            && ((this.map[i][j - 1].getMob().getClass() == Defender.class
-                                    || this.map[i][j - 1].getMob().getClass() == Defender1.class))) {
+                            && (this.map[i][j - 1].getMob().getClass() == PeaShooter.class)) {
 
-                        Mechant enemy = (Mechant) this.map[i][j].getMob();
+                        Enemy enemy = (Enemy) this.map[i][j].getMob();
                         this.map[i][j].getMob().setDelatXY(i, j - 1);
                         enemy.attack(this);
                     }
@@ -550,15 +517,13 @@ public class MapConfig {
                 this.map[i][j].setPresent(false);
 
             } else if (this.map[i][j - 1].getMob() != null
-                    && ((this.map[i][j - 1].getMob().getClass() == Defender.class
-                            || this.map[i][j - 1].getMob().getClass() == Defender1.class))) {
+                    && (this.map[i][j - 1].getMob().getClass() == PeaShooter.class)) {
 
-                Mechant enemy = (Mechant) this.map[i][j].getMob();
+                Enemy enemy = (Enemy) this.map[i][j].getMob();
                 this.map[i][j].getMob().setDelatXY(i, j - 1);
                 enemy.attack(this);
             }
         }
-        // this.afficher();
     }
 
     public boolean lose() {
@@ -579,8 +544,7 @@ public class MapConfig {
         int compteur = 0;
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
-                if (map[i][j].getMob() != null && (map[i][j].getMob().getClass() == Enemy1.class
-                        || map[i][j].getMob().getClass() == Enemy2.class)) {
+                if (map[i][j].getMob() != null && (map[i][j].getMob().getClass() == Zombie.class)) {
                     compteur++;
                 }
             }
@@ -618,9 +582,6 @@ public class MapConfig {
     }
 
     public void loop1() {
-        // c la meme loop ?ahhhh fait chier c compliqué alors mdr hmmmmmmmmmmmm attds
-        // faut reflechoer a comment modifier ça pour l'integrer je te laisse ?
-        // oui vays je gere azyy
         System.out.println("this is loop2");
         this.afficher();
         while (!lose() && (Vague <= 2)) {
@@ -660,11 +621,7 @@ public class MapConfig {
                 if (line < map.length && column < map[0].length) {
                     int random_Type_ennemie = random.nextInt(2);
                     if (random_Type_ennemie == 0) {
-                        map[line][column].setMob(new Enemy1());
-                        map[line][column].Set_Enemy_present(true);
-                        map[line][column].setPresent(true);
-                    } else {
-                        map[line][column].setMob(new Enemy2());
+                        map[line][column].setMob(new Zombie());
                         map[line][column].Set_Enemy_present(true);
                         map[line][column].setPresent(true);
                     }
@@ -678,15 +635,10 @@ public class MapConfig {
         spawn(6);
     }
 
-    // spawn3 to spawn 3 enemies
     public void spawn3() {
-        spawn(3); // Spawn 3 enemies
+        spawn(3);
     }
 
     public static void main(String[] args) {
-        // System.out.println("Vous entrez dans une mode de jeu facile ");
-        // a.afficher();
-        // a.test1();
-        // a.loop();
     }
 }

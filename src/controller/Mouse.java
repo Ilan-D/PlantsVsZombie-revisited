@@ -27,7 +27,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
         if (this.game.getImageClickedPeashooter() && currentPlayer.getMoney() >= 100 && column != 0 && !(this.game.getMap()[line][column].getPresent())) {
             currentPlayer.setMoney(currentPlayer.getMoney() - 100);
 
-            Defender1 def = new Defender1();
+            PeaShooter def = new PeaShooter();
 
             this.game.getBattle().getDEFENDER().add(def);
 

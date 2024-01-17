@@ -1,14 +1,10 @@
 package model;
 
-import java.awt.Image;
-
 public class Case {
     private String display;
     private Mob mob;
     private boolean present;
     private boolean Enemy_present = false;
-   
-    
 
     public Case(Mob mob) {
         this.present = true;

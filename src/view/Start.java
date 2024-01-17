@@ -117,7 +117,7 @@ public class Start implements ActionListener {
     }
 
     private void changeMap(int delta) {
-        if ((delta == -1 && this.choiceMap > 1) || (delta == 1 && this.choiceMap < 3)) {
+        if ((delta == -1 && this.choiceMap > 1) || (delta == 1 && this.choiceMap < 4)) {
             this.choiceMap += delta;
         }
 

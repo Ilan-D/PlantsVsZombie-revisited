@@ -14,8 +14,6 @@ import javax.swing.*;
 import view.zooz;
 
 public class zooz extends JPanel {
-
-    private Image[] dieZombImages;
     private int currentFrameIndex2 = 0;
     private boolean t = true;
 
@@ -26,29 +24,22 @@ public class zooz extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        this.getGraphics().drawImage(dieZombImages[currentFrameIndex2], 0, 0, null);
+        g.clearRect(0, 0, getWidth(), getHeight()); // pour nettoyer l'ancienne image
+        g.drawImage(new ImageIcon("src/img/zombiedie/Frame" + currentFrameIndex2 + ".png").getImage(), 0, 0, null);
     }
 
     public void initialiseDieShow() {
-        try {
-            dieZombImages = new Image[12];
-            for (int pages = 0; pages < 12; pages++) {
-                dieZombImages[pages] = ImageIO.read(new File("src/img/zombiedie/Frame" + pages + ".png"));
-            }
-
-            // Créer le mouvement des ennemis
-            Timer timer = new Timer(1000, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    currentFrameIndex2 = (currentFrameIndex2 + 1) % dieZombImages.length;
-                    repaint();
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentFrameIndex2 += 1;
+                if (currentFrameIndex2 == 12) {
+                    ((Timer) e.getSource()).stop();
                 }
-            });
-            timer.start();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                repaint();
+            }
+        });
+        timer.start();
     }
 
     public static void main(String[] args) {
@@ -60,8 +51,9 @@ public class zooz extends JPanel {
 
                 zooz game = new zooz();
                 frame.add(game);
+                frame.setSize(new Dimension(700, 800));
 
-                frame.pack();
+//                frame.pack();
                 frame.setLocationRelativeTo(null);
                 frame.setResizable(false);
                 frame.setVisible(true);

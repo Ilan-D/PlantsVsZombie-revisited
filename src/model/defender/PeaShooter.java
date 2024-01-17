@@ -1,17 +1,12 @@
 package model.defender;
 
-public class Defender extends Tower {
+public class PeaShooter extends Tower {
 
-    private final int price = 100;
+    public int damage_intensity = 2;
+    private final int price = 80;
 
-    public Defender() {
-        // super("Defender", "C");
-        super("Defender", "C", 2);
-
-    }
-
-    public int getPrice() {
-        return this.price;
+    public PeaShooter() {
+        super("peashooter", "N", 2);
     }
 
     @Override
@@ -19,8 +14,11 @@ public class Defender extends Tower {
         int health_points = this.getHealth_points();
         if (health_points <= 9) {
             return super.get_display() + super.get_display() + this.getHealth_points();
-
         }
         return super.get_display() + 10;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }
