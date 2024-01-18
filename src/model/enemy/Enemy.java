@@ -94,13 +94,14 @@ public class Enemy extends Mob {
         Timer timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                posiX -= 1;
+                posiX -= 3;
+                // System.out.println(currentFrameIndex);
                 currentFrameIndex = currentFrameIndex + 1;
                 if (isDie() && currentFrameIndex == 12) {
                     ((Timer) e.getSource()).stop();
                 } else if (isAttack() && currentFrameIndex == 12) {
                     currentFrameIndex = 0;
-                } else if (currentFrameIndex == 17) {
+                } else if (currentFrameIndex == 18) {
                     currentFrameIndex = 0;
                 }
             }

@@ -79,7 +79,7 @@ public class PlantvsZombie extends JPanel {
         }
         this.choiceMap = choiceMap;
         this.map = battle.getMap();
-        System.out.println(this.battle.getCompteurEnemy());
+
         this.setPreferredSize(new Dimension(1200, 800));
         this.cellHeight = this.getHeight() / this.map.length;
         this.cellWidth = 1200 / 11;
@@ -249,19 +249,20 @@ public class PlantvsZombie extends JPanel {
                             // }
 
                         } else if (currentMob.getHealth_points() <= 0) {
+
                             if (!currentMob.isDie()) {
                                 currentMob.currentFrameIndex = 0;
                                 System.out.println("test");
                             }
+
                             currentMob.setDie(true);
-                            g.drawImage(new ImageIcon("src/img/zombiedie/Frame" + currentMob.currentFrameIndex + ".png")
-                                    .getImage(), posiX, posiY, 100, 100, null);
-                            System.out.println(currentMob.currentFrameIndex);
-                            g.drawImage(
-                                    new ImageIcon("src/img/zombiehead/Frame" + currentMob.currentFrameIndex + ".png")
-                                            .getImage(),
-                                    posiX, posiY, 100, 100, null);
-                            clean(i, j);
+
+                            drawDeath(g, "src/imgzombiedie/Frame", ".png", posiX, posiY, currentMob);
+
+                            if (currentMob.currentFrameIndex == 12) {
+                                clean(i, j);
+                            }
+
                         } else {
                             g.drawImage(new ImageIcon(
                                     "src/img/zombie/Frame" + currentMob.currentFrameIndex + ".png").getImage(), posiX,
@@ -279,6 +280,7 @@ public class PlantvsZombie extends JPanel {
                         if (posiX + cellWidth == 0) { // pour la fin s'il gagne
                             end(g);
                         }
+
                         counter_X += 1;
 
                     } else if (currentCase.getPresent() && currentCase.getMob().getClass() == PeaShooter.class) {
@@ -308,6 +310,18 @@ public class PlantvsZombie extends JPanel {
                 }
             }
         }
+
+    }
+
+    public void drawDeath(Graphics g, String path, String extension, int posiX, int posiY, Enemy currentMob) {
+        System.out.println(currentMob.currentFrameIndex);
+        g.drawImage(new ImageIcon("src/img/zombiedie/Frame" + currentMob.currentFrameIndex + ".png")
+                .getImage(), posiX, posiY, 100, 100, null);
+
+        g.drawImage(
+                new ImageIcon("src/img/zombiehead/Frame" + currentMob.currentFrameIndex + ".png")
+                        .getImage(),
+                posiX, posiY, 100, 100, null);
 
     }
 

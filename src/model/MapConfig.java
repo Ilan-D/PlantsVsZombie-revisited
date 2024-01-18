@@ -67,8 +67,6 @@ public class MapConfig {
     }
 
     public void loop2() {
-
-        System.out.println("Mode de jeu DUR");
         this.afficher();
         while (!lose() && (Vague <= 2)) {
             if (win() && (Vague == 2)) {
@@ -106,14 +104,12 @@ public class MapConfig {
     }
 
     public void loopM() {
-        System.out.println("Mode marathon");
         this.afficher();
         while (!lose()) {
             if (win() && (VagueM == 2)) {
                 spawn_till_death();
 
                 this.afficher();
-                System.out.println("Ennemi ultime");
 
             }
             this.player1.setMoney(this.player1.getMoney() + 10);
@@ -164,13 +160,11 @@ public class MapConfig {
 
     // spawn2 to spawn 6 enemies
     public void spawn2_M() {
-
         spawn(1, 1);
     }
 
     // spawn3 to spawn 3 enemies
     public void spawn3_M() {
-
         spawn(1, 1);
     }
 
@@ -582,7 +576,6 @@ public class MapConfig {
     }
 
     public void loop1() {
-        System.out.println("this is loop2");
         this.afficher();
         while (!lose() && (Vague <= 2)) {
             if (win() && (Vague == 2)) {
