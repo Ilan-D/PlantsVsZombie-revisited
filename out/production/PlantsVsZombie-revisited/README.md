@@ -1,0 +1,1 @@
+Je n'ai pas pu encore mettre un timer et un currentFrameIndex pour chaque objet Mob, j'ai du mettre obglifatoirement dans chaque

@@ -88,7 +88,7 @@ public class PlantvsZombie extends JPanel {
 
         this.initialiseEnemies();
         this.initializeBackground();
-        this.timer();
+        // this.timer();
         this.initializeShopBackground();
 
         this.money.setBounds(300, 70, 500, 500);
@@ -145,7 +145,7 @@ public class PlantvsZombie extends JPanel {
         }
 
         g.drawString(money, 35, 80);
-        this.drawCase(g, cellHeight, cellWidth);
+        // this.drawCase(g, cellHeight, cellWidth);
 
         this.cellHeight = (this.getHeight() - 100) / this.map.length;
 
@@ -209,16 +209,17 @@ public class PlantvsZombie extends JPanel {
             for (int j = 0; j < map[i].length; j++) {
                 Case currentCase = map[i][j];
                 // this.posiX =; this.posiY =; // penser a factoriser le plus possible le code
+                Mob currentMob = map[i][j].getMob();
                 if (currentCase.getMob() != null) {
                     if (map[i][j].Get_Enemy_present() && map[i][j].getMob().getClass() == Zombie.class) {
-                        Zombie currentMob = (Zombie) map[i][j].getMob();
+                        // Zombie currentMob = (Zombie) map[i][j].getMob();
 
                         posiX = ((currentMob.getColonnePosi() * cellWidth) - cellWidth) + currentMob.getPosiX(); // problème
                                                                                                                  // il
                                                                                                                  // faut
                                                                                                                  // sortir
                                                                                                                  // cela
-
+                        // System.out.println(currentMob.getPosiX());
                         gifXTMP = ((j * cellWidth) / cellWidth);
 
                         posiY = (i * cellHeight) + 100;
@@ -228,10 +229,11 @@ public class PlantvsZombie extends JPanel {
                         if (j != 1 && j != 0 && map[i][j - 1].getPresent() && !map[i][j - 1].Get_Enemy_present()) {
                             currentMob.setAttack(true);
                             g.drawImage(
-                                    new ImageIcon("src/img/zombieeat/Frame" + currentMob.currentFrameIndex + ".png")
+                                    new ImageIcon(
+                                            "src/img/zombieeat/Frame" + currentMob.getCurrentFrameIndex() + ".png")
                                             .getImage(),
                                     ((j) * cellWidth) - 20, posiY, 100, 100, null);
-                            currentMob.setPosiX(currentMob.getPosiX() + 2);
+                            currentMob.setPosiX(currentMob.getPosiX() + 1);
                             attackDefenseWithDelay(g, i, j);
 
                             // battle.afficher();
@@ -251,7 +253,8 @@ public class PlantvsZombie extends JPanel {
                         } else if (currentMob.getHealth_points() <= 0) {
 
                             if (!currentMob.isDie()) {
-                                currentMob.currentFrameIndex = 0;
+                                // currentMob.getCurrentFrameIndex() = 0;
+                                currentMob.setCurrentFrameIndex(0);
                                 System.out.println("test");
                             }
 
@@ -259,14 +262,16 @@ public class PlantvsZombie extends JPanel {
 
                             drawDeath(g, "src/imgzombiedie/Frame", ".png", posiX, posiY, currentMob);
 
-                            if (currentMob.currentFrameIndex == 12) {
+                            if (currentMob.getCurrentFrameIndex() == 12) {
                                 clean(i, j);
                             }
 
                         } else {
                             g.drawImage(new ImageIcon(
-                                    "src/img/zombie/Frame" + currentMob.currentFrameIndex + ".png").getImage(), posiX,
+                                    "src/img/zombie/Frame" + currentMob.currentFrameIndex + ".png").getImage(),
+                                    posiX,
                                     posiY, 100, 100, null);
+                            System.out.println(currentMob.getCurrentFrameIndex());
                             if (position[counter_X][1] != j) {
                                 move(i, j);
                                 gifXTMP = ((j * cellWidth)) / cellWidth;
@@ -313,13 +318,13 @@ public class PlantvsZombie extends JPanel {
 
     }
 
-    public void drawDeath(Graphics g, String path, String extension, int posiX, int posiY, Enemy currentMob) {
-        System.out.println(currentMob.currentFrameIndex);
-        g.drawImage(new ImageIcon("src/img/zombiedie/Frame" + currentMob.currentFrameIndex + ".png")
+    public void drawDeath(Graphics g, String path, String extension, int posiX, int posiY, Mob currentMob) {
+        System.out.println(currentMob.getCurrentFrameIndex());
+        g.drawImage(new ImageIcon("src/img/zombiedie/Frame" + currentMob.getCurrentFrameIndex() + ".png")
                 .getImage(), posiX, posiY, 100, 100, null);
 
         g.drawImage(
-                new ImageIcon("src/img/zombiehead/Frame" + currentMob.currentFrameIndex + ".png")
+                new ImageIcon("src/img/zombiehead/Frame" + currentMob.getCurrentFrameIndex() + ".png")
                         .getImage(),
                 posiX, posiY, 100, 100, null);
 
@@ -363,33 +368,32 @@ public class PlantvsZombie extends JPanel {
     }
 
     ////////////////////////////// TIMER //////////////////////////////
-    private void timer() {
-        Timer timer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gifX -= 2;
-                currentFrameIndex = (currentFrameIndex + 1) % 12;
-                repaint();
-                if (end_of_death) {
-                    end_of_death = false;
-                    currentFrameIndexDeath = (currentFrameIndexDeath + 1);
-                    if (currentFrameIndexDeath == 12) {
-                        currentFrameIndexDeath = 0;
-                    }
-                }
-            }
-        });
-        timer.start();
-        final Player money = this.battle.getPlayer();
-        Timer timerMoney = new Timer(5000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                money.setMoney(money.getMoney() + 30);
-            }
-        });
-        timerMoney.start();
-
-    }
+    // private void timer() {
+    // Timer timer = new Timer(100, new ActionListener() {
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+    // gifX -= 2;
+    // currentFrameIndex = (currentFrameIndex + 1) % 12;
+    // repaint();
+    // if (end_of_death) {
+    // end_of_death = false;
+    // currentFrameIndexDeath = (currentFrameIndexDeath + 1);
+    // if (currentFrameIndexDeath == 12) {
+    // currentFrameIndexDeath = 0;
+    // }
+    // }
+    // }
+    // });
+    // timer.start();
+    // final Player money = this.battle.getPlayer();
+    // Timer timerMoney = new Timer(5000, new ActionListener() {
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+    // money.setMoney(money.getMoney() + 30);
+    // }
+    // });
+    // timerMoney.start();
+    // }
     ////////////////////////////// TIMER //////////////////////////////
 
     ///////////////////////// HELPER FUNCTION /////////////////////////

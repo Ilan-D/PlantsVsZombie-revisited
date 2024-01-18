@@ -3,16 +3,16 @@ package model.enemy;
 import model.MapConfig;
 import model.Mob;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+// import javax.swing.*;
+// import java.awt.event.ActionEvent;
+// import java.awt.event.ActionListener;
 
 public class Enemy extends Mob {
-    private boolean die;
-    private boolean walk;
-    private boolean attack;
-    private int posiX;
-    public int currentFrameIndex;
+    // private boolean die;
+    // private boolean walk;
+    // private boolean attack;
+    // private int posiX;
+    // public int currentFrameIndex;
 
     public Enemy(String name, String Display, int damage) {
         super(name, Display);
@@ -21,37 +21,37 @@ public class Enemy extends Mob {
     }
 
     /////////////////////////// ACCESSEURS ET MUTATEURS ///////////////////////////
-    public boolean isDie() {
-        return die;
-    }
+    // public boolean isDie() {
+    // return die;
+    // }
 
-    public void setDie(boolean die) {
-        this.die = die;
-    }
+    // public void setDie(boolean die) {
+    // this.die = die;
+    // }
 
-    public boolean isWalk() {
-        return walk;
-    }
+    // public boolean isWalk() {
+    // return walk;
+    // }
 
-    public void setWalk(boolean walk) {
-        this.walk = walk;
-    }
+    // public void setWalk(boolean walk) {
+    // this.walk = walk;
+    // }
 
-    public boolean isAttack() {
-        return attack;
-    }
+    // public boolean isAttack() {
+    // return attack;
+    // }
 
-    public void setAttack(boolean attack) {
-        this.attack = attack;
-    }
+    // public void setAttack(boolean attack) {
+    // this.attack = attack;
+    // }
 
-    public int getPosiX() {
-        return this.posiX;
-    }
+    // public int getPosiX() {
+    // return this.posiX;
+    // }
 
-    public void setPosiX(int n) {
-        this.posiX = n;
-    }
+    // public void setPosiX(int n) {
+    // this.posiX = n;
+    // }
 
     /////////////////////////// ACCESSEURS ET MUTATEURS ////////////////////////////
 
@@ -89,24 +89,23 @@ public class Enemy extends Mob {
         return super.get_display() + this.getHealth_points();
     }
 
-    public void timer() {
+    // public void timer() {
 
-        Timer timer = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                posiX -= 3;
-                // System.out.println(currentFrameIndex);
-                currentFrameIndex = currentFrameIndex + 1;
-                if (isDie() && currentFrameIndex == 12) {
-                    ((Timer) e.getSource()).stop();
-                } else if (isAttack() && currentFrameIndex == 12) {
-                    currentFrameIndex = 0;
-                } else if (currentFrameIndex == 18) {
-                    currentFrameIndex = 0;
-                }
-            }
-        });
-        timer.start();
+    // Timer timer = new Timer(100, new ActionListener() {
+    // @Override
+    // public void actionPerformed(ActionEvent e) {
+    // posiX -= 1;
+    // currentFrameIndex = currentFrameIndex + 1;
+    // if (isDie() && currentFrameIndex == 12) {
+    // ((Timer) e.getSource()).stop();
+    // } else if (isAttack() && currentFrameIndex == 12) {
+    // currentFrameIndex = 0;
+    // } else if (currentFrameIndex == 18) {
+    // currentFrameIndex = 0;
+    // }
+    // }
+    // });
+    // timer.start();
 
-    }
+    // }
 }
