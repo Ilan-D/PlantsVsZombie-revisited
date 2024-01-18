@@ -11,13 +11,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import view.zooz;
+import view.test;
 
-public class zooz extends JPanel {
+public class test extends JPanel {
     private int currentFrameIndex2 = 0;
     private boolean t = true;
 
-    public zooz() {
+    public test() {
         this.initialiseDieShow();
         this.setPreferredSize(new Dimension(900, 800));
     }
@@ -49,7 +49,7 @@ public class zooz extends JPanel {
                 JFrame frame = new JFrame("Game Window");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                zooz game = new zooz();
+                test game = new test();
                 frame.add(game);
                 frame.setSize(new Dimension(700, 800));
 

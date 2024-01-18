@@ -1,9 +1,9 @@
 package model;
 
-// import java.awt.event.ActionEvent;
-// import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-// import javax.swing.Timer;
+import javax.swing.Timer;
 
 public abstract class Mob {
     private int[] DeltaXY = new int[2];
@@ -17,21 +17,24 @@ public abstract class Mob {
     private boolean die;
     private boolean walk;
     private boolean attack;
-    // public int currentFrameIndex;
+    private int currentFrameIndex;
+
+    // private static final int damage;
 
     public Mob(String name) {
         this.name = name;
         this.health_points = 10;
-        // this.timer();
+        this.timer();
+        // this.Alive = true;
     }
 
     public Mob(String name, String display) {
         this.name = name;
         this.display = display;
         this.health_points = 10;
-        // this.timer(); // penser à y mettre un parametre afin d'envoyer le nombre
-        // d'image en fonction
-        // du mob créer et donc du nombre d'image qui different en fonction !
+        // this.Alive = true;
+        this.timer(); // penser à y mettre un parametre afin d'envoyer le nombre d'image en fonction
+                      // du mob créer et donc du nombre d'image qui different en fonction !
     }
 
     // les methodes que les defenseur et Asaillant doivent avoir
@@ -99,13 +102,13 @@ public abstract class Mob {
         this.posiX = n;
     }
 
-    // public int getCurrentFrameIndex() {
-    // return this.currentFrameIndex;
-    // }
+    public int getCurrentFrameIndex() {
+        return this.currentFrameIndex;
+    }
 
-    // public void setCurrentFrameIndex(int n) {
-    // this.currentFrameIndex = n;
-    // }
+    public void setCurrentFrameIndex(int n) {
+        this.currentFrameIndex = n;
+    }
 
     public boolean isDie() {
         return die;
@@ -145,25 +148,24 @@ public abstract class Mob {
     }
     //// ACCESSEUR GUI////
 
-    // public void timer() {
+    public void timer() {
 
-    // Timer timer = new Timer(100, new ActionListener() {
-    // @Override
-    // public void actionPerformed(ActionEvent e) {
-    // posiX -= 1;
-    // currentFrameIndex = (currentFrameIndex + 1) % 17;
-    // System.out.println(currentFrameIndex);
-    // // System.out.println(currentFrameIndex);
-    // // if (isDie() && currentFrameIndex == 12) {
-    // // ((Timer) e.getSource()).stop();
-    // // } else if (isAttack() && currentFrameIndex == 12) {
-    // // currentFrameIndex = 0;
-    // // } else if (currentFrameIndex == 17) {
-    // // currentFrameIndex = 0;
-    // // }
-    // }
-    // });
-    // timer.start();
-    // }
+        Timer timer = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                posiX -= 1;
+                currentFrameIndex = currentFrameIndex + 1;
+                if (isDie() && currentFrameIndex == 12) {
+                    ((Timer) e.getSource()).stop();
+                } else if (isAttack() && currentFrameIndex == 12) {
+                    currentFrameIndex = 0;
+                } else if (currentFrameIndex == 17) {
+                    currentFrameIndex = 0;
+                }
+            }
+        });
+        timer.start();
+
+    }
 
 }

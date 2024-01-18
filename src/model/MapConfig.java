@@ -261,7 +261,7 @@ public class MapConfig {
 
     public void spawn() {
         Random random = new Random();
-        int numberOfEnemies = 1;
+        int numberOfEnemies = 4;
 
         if (game_mode == 3) {
             numberOfEnemies = 10;
