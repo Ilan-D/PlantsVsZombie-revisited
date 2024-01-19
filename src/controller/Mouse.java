@@ -42,7 +42,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
                 && !(this.game.getMap()[line][column].getPresent())) {
             currentPlayer.setMoney(currentPlayer.getMoney() - 50);
 
-            DefenderNut def = new DefenderNut();
+            Nut def = new Nut();
 
             this.game.getBattle().getDEFENDER().add(def);
 

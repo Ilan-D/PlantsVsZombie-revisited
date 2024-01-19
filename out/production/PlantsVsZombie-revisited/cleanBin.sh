@@ -1,1 +1,0 @@
-rm src/model/*.class src/model/enemy/*.class src/model/defender/*.class src/view/*.class src/controller/*.class

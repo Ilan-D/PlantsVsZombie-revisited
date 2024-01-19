@@ -353,7 +353,7 @@ public class MapConfig {
                 this.player1.setMoney(this.player1.getMoney() - defender1.getPrice());
             }
             if (piece.equals("B")) {
-                Defender2 defender2 = new Defender2();
+                Bombe defender2 = new Bombe();
                 map[x][y].setMob(defender2);
                 map[x][y].getMob().setDelatXY(x, y);
                 map[x][y].setPresent(true);
