@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.text.html.ImageView;
 
 import model.Launcher;
 import view.Start;
@@ -45,7 +44,7 @@ public class Start implements ActionListener {
         frame.add(panel);
 
         JPanel buttonPanel = new JPanel();
-        String[] buttonLabels = {"TERMINAL", "CHOSE LEVELS", "MARATHON", "MAP", "CLOSE"};
+        String[] buttonLabels = { "TERMINAL", "CHOSE LEVELS", "MARATHON", "MAP", "CLOSE" };
         JButton[] buttons = new JButton[buttonLabels.length];
 
         for (int i = 0; i < buttonLabels.length; i++) {
@@ -105,7 +104,6 @@ public class Start implements ActionListener {
 
         JButton nextButton = new JButton("Next");
         nextButton.addActionListener(event -> changeMap(1));
-
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(prevButton);

@@ -368,12 +368,9 @@ public class PlantvsZombie extends JPanel {
     }
 
     public void drawImage(Graphics g, String path, ImageIcon currentImage) {
-        try {
-            g.drawImage(new ImageIcon(path).getImage(), getMousePosition().x - (currentImage.getIconWidth() / 2),
-                    getMousePosition().y - (currentImage.getIconHeight() / 2), 50, 50, null);
-        } catch (NullPointerException e) {
+        g.drawImage(new ImageIcon(path).getImage(), getMousePosition().x - (currentImage.getIconWidth() / 2),
+                getMousePosition().y - (currentImage.getIconHeight() / 2), 50, 50, null);
 
-        }
     }
 
     public void move(int i, int j) {
